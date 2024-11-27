@@ -4,21 +4,27 @@ import Signin from "./components/Signin";
 import Navbar from "./components/Navbar";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
+import User from "./components/User";
 
-const page = () => {
+const Page = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     const storedToken = Cookies.get("token");
     setToken(storedToken || null);
+    setIsLoading(false);
   }, []);
+
+  if (isLoading) {
+    return null;
+  }
+
   return (
     <div>
       {token ? (
         <div>
-          <div>
-            <h1>Welcome! Your token: {token}</h1>
-          </div>
+          <User />
         </div>
       ) : (
         <div>
@@ -29,4 +35,5 @@ const page = () => {
     </div>
   );
 };
-export default page;
+
+export default Page;
