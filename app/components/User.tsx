@@ -2,21 +2,16 @@
 
 import Image from "next/image";
 import Search from "./Search";
+import Default from "./Default";
 
 const User = () => {
   return (
-    <div className="p-7 md:p-10 relative">
-      <Search />
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="w-[15.625rem] h-[9rem] relative">
-          <Image
-            fill
-            src="/default-home.png"
-            alt="default-home"
-            className="object-cover"
-          />
-        </div>
+    <div className="h-screen flex flex-col">
+      <div className="p-7 md:p-10">
+        <Search />
       </div>
+
+      <Default />
     </div>
   );
 };

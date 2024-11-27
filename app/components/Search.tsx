@@ -10,15 +10,21 @@ const Search = () => {
   const handleTrackingIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTrackingId(e.target.value);
     if (e.target.value === "") {
+      setDisabled(true);
       setTrackingError("");
+    } else {
+      setDisabled(false);
     }
   };
 
-  const handleTrack = () => {};
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+  };
 
   return (
     <div className="bg-[#F8FAFC] px-5 sm:px-0 h-[6.875rem] flex flex-col justify-center items-center">
-      <form onSubmit={handleTrack} className="flex space-x-3 md:space-x-6">
+      <form onSubmit={handleSubmit} className="flex space-x-3 md:space-x-6">
         <div
           tabIndex={0}
           id="here"
