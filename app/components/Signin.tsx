@@ -1,6 +1,9 @@
 "use client";
 
+import { CircularProgress } from "@mui/material";
+import axios from "axios";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 const Signin = () => {
   const [username, setUsername] = useState("");
@@ -8,6 +11,9 @@ const Signin = () => {
   const [checked, setChecked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [disabled, setDisabled] = useState(true);
+  const [userNameError, setUserNameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (username !== "" && password !== "" && checked) {
@@ -17,8 +23,61 @@ const Signin = () => {
     }
   }, [username, password, checked]);
 
-  const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+  const api_url = process.env.NEXT_PUBLIC_API_URL!;
+  const api_username = process.env.NEXT_PUBLIC_API_USERNAME!;
+  const api_password = process.env.NEXT_PUBLIC_API_PASSWORD!;
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+    if (e.target.value === "") {
+      setUserNameError("");
+    }
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    if (e.target.value === "") {
+      setPasswordError("");
+    }
+  };
+
+  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setUserNameError("");
+    setPasswordError("");
+    setLoading(true);
+
+    if (username != api_username) {
+      setUserNameError("User doesn't exist");
+      setLoading(false);
+    }
+    if (password != api_password) {
+      setPasswordError("Incorrect password");
+      setLoading(false);
+    } else {
+      try {
+        const formData = new FormData();
+        formData.append("usr", username);
+        formData.append("pwd", password);
+
+        const response = await axios.post(api_url, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        });
+        if (response.status == 200) {
+          setUsername("");
+          setPassword("");
+          setLoading(false);
+
+          const token = response.data.full_name;
+          Cookies.set("token", token, { expires: 2 / 24, path: "/" });
+        }
+      } catch (error: any) {
+        console.error("Login failed:", error);
+      }
+    }
   };
 
   return (
@@ -46,7 +105,13 @@ const Signin = () => {
             <div
               tabIndex={0}
               id="here"
-              className="flex items-center w-full h-full space-x-2 border-2 p-3 rounded-lg focus-within:border-primary"
+              className={`flex items-center w-full h-full space-x-2 border-2 p-3 rounded-lg ${
+                userNameError == "" ? "focus-within:border-primary" : ""
+              }  ${
+                userNameError == ""
+                  ? " focus-within:ring-4 focus-within:ring-[CEE0FF]"
+                  : "ring-4 ring-[#f6d5d5] border-error"
+              }" ${userNameError == "" ? "" : "border-error"} `}
             >
               <svg
                 width="16"
@@ -88,10 +153,13 @@ const Signin = () => {
                 id="username"
                 name="username"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={handleUsernameChange}
                 className="border-none focus:outline-none w-full h-full placeholder:text-[#6B7280] text-[#000000] text-[0.938rem] font-medium"
               />
             </div>
+            <h1 className="text-error font-semibold text-sm">
+              {userNameError}
+            </h1>
           </div>
 
           {/* password */}
@@ -110,7 +178,13 @@ const Signin = () => {
             <div
               tabIndex={0}
               id="here"
-              className="flex items-center w-full h-full space-x-2 border-2 p-3 rounded-lg focus-within:border-primary"
+              className={`flex items-center w-full h-full space-x-2 border-2 p-3 rounded-lg ${
+                passwordError == "" ? "focus-within:border-primary" : ""
+              }  ${
+                passwordError == ""
+                  ? " focus-within:ring-4 focus-within:ring-[CEE0FF]"
+                  : "ring-4 ring-[#f6d5d5] border-error"
+              }" ${passwordError == "" ? "" : "border-error"} `}
             >
               <svg
                 width="16"
@@ -140,7 +214,7 @@ const Signin = () => {
                 id="password"
                 name="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordChange}
                 className="border-none focus:outline-none w-full h-full placeholder:text-[#6B7280] text-[#000000] text-[0.938rem] font-medium"
               />
 
@@ -179,6 +253,9 @@ const Signin = () => {
                 />
               </svg>
             </div>
+            <h1 className="text-error font-semibold text-sm">
+              {passwordError}
+            </h1>
           </div>
 
           {/* Remember me checkbox and submit button */}
@@ -203,9 +280,16 @@ const Signin = () => {
             <button
               type="submit"
               disabled={disabled}
-              className="bg-primary disabled:bg-[#60A5FA] w-full h-full py-3 font-semibold text-[0.938rem] text-white rounded-lg"
+              className="bg-primary flex items-center justify-center space-x-3 disabled:bg-[#60A5FA] w-full h-full py-3 font-semibold text-[0.938rem] text-white rounded-lg"
             >
-              Sign in
+              {loading ? (
+                <>
+                  <CircularProgress size="14px" sx={{ color: "white" }} />
+                  <h1>Signing in</h1>
+                </>
+              ) : (
+                <h1>Sign in</h1>
+              )}
             </button>
           </div>
         </form>
