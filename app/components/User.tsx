@@ -5,9 +5,9 @@ import Search from "./Search";
 
 const User = () => {
   return (
-    <div className="p-7 md:p-10">
+    <div className="p-7 md:p-10 relative">
       <Search />
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center min-h-screen">
         <div className="w-[15.625rem] h-[9rem] relative">
           <Image
             fill

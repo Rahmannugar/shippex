@@ -27,7 +27,7 @@ const Page = () => {
           <User />
         </div>
       ) : (
-        <div>
+        <div className="h-screen flex flex-col">
           <Navbar />
           <Signin />
         </div>

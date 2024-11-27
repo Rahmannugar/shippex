@@ -1,15 +1,94 @@
 "use client";
 
-import { redirect } from "next/navigation";
-import { useEffect } from "react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import Search from "./components/Search";
+import Link from "next/link";
 
 const NotFound = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState<string | null>(null);
+
   useEffect(() => {
-    redirect("/");
+    const storedToken = Cookies.get("token");
+    setToken(storedToken || null);
+    setIsLoading(false);
   }, []);
+
+  if (isLoading) {
+    return null;
+  }
+
   return (
-    <div className="bg-black text-white h-screen flex justify-center items-center uppercase">
-      404 Not Found
+    <div>
+      {token ? (
+        <div className="h-screen flex flex-col">
+          <div className="p-7 md:p-10 justify-start">
+            <Search />
+          </div>
+
+          <div className="flex-grow flex flex-col justify-center items-center text-center">
+            <div className="w-[15.625rem] h-[9rem] relative">
+              <Image
+                fill
+                src="/not-found.png"
+                alt="default-home"
+                className="object-cover"
+              />
+            </div>
+            <div className="space-y-2 mt-10">
+              <h1 className="text-2xl font-bold text-[#000000]">404</h1>
+              <h1
+                style={{ letterSpacing: "0.5%" }}
+                className="text-sm text-[#838282]"
+              >
+                Oops! The page you're looking for can't be found.
+              </h1>
+            </div>
+
+            <div className="mt-7">
+              <Link
+                href="/"
+                style={{ letterSpacing: "0.5%" }}
+                className="font-semibold text-primary text-[0.938rem] hover:underline"
+              >
+                Retry
+              </Link>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="flex-grow flex flex-col justify-center h-screen items-center text-center">
+          <div className="w-[15.625rem] h-[9rem] relative">
+            <Image
+              fill
+              src="/not-found.png"
+              alt="default-home"
+              className="object-cover"
+            />
+          </div>
+          <div className="space-y-2 mt-10">
+            <h1 className="text-2xl font-bold text-[#000000]">404</h1>
+            <h1
+              style={{ letterSpacing: "0.5%" }}
+              className="text-sm text-[#838282]"
+            >
+              Oops! The page you're looking for can't be found.
+            </h1>
+          </div>
+
+          <div className="mt-7">
+            <Link
+              href="/"
+              style={{ letterSpacing: "0.5%" }}
+              className="font-semibold text-primary text-[0.938rem] hover:underline"
+            >
+              Retry
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

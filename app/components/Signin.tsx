@@ -23,7 +23,7 @@ const Signin = () => {
     }
   }, [username, password, checked]);
 
-  const api_url = process.env.NEXT_PUBLIC_API_URL!;
+  const api_url = process.env.NEXT_PUBLIC_API_SIGNIN_URL!;
   const api_username = process.env.NEXT_PUBLIC_API_USERNAME!;
   const api_password = process.env.NEXT_PUBLIC_API_PASSWORD!;
 
@@ -50,10 +50,12 @@ const Signin = () => {
     if (username != api_username) {
       setUserNameError("User doesn't exist");
       setLoading(false);
+      return;
     }
     if (password != api_password) {
       setPasswordError("Incorrect password");
       setLoading(false);
+      return;
     } else {
       try {
         const formData = new FormData();
@@ -73,6 +75,8 @@ const Signin = () => {
 
           const token = response.data.full_name;
           Cookies.set("token", token, { expires: 2 / 24, path: "/" });
+
+          window.location.reload();
         }
       } catch (error: any) {
         console.error("Login failed:", error);
@@ -81,7 +85,7 @@ const Signin = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col justify-center items-center">
+    <div className="flex flex-grow flex-col justify-center items-center">
       <div className="space-y-4">
         <div className="space-y-2 text-center px-8">
           <h1 className="text-[#000000] font-bold text-2xl">Sign in</h1>
@@ -284,7 +288,7 @@ const Signin = () => {
             >
               {loading ? (
                 <>
-                  <CircularProgress size="14px" sx={{ color: "white" }} />
+                  <CircularProgress size="0.875rem" sx={{ color: "white" }} />
                   <h1>Signing in</h1>
                 </>
               ) : (

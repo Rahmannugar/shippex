@@ -14,13 +14,15 @@ const Search = () => {
     }
   };
 
+  const handleTrack = () => {};
+
   return (
     <div className="bg-[#F8FAFC] px-5 sm:px-0 h-[6.875rem] flex flex-col justify-center items-center">
-      <div className="flex space-x-3 md:space-x-6">
+      <form onSubmit={handleTrack} className="flex space-x-3 md:space-x-6">
         <div
           tabIndex={0}
           id="here"
-          className={`flex items-center w-[60vw] sm:w-[400px] md:w-[500px] lg:w-[600px] bg-white h-full space-x-2 border-2 p-3 rounded-lg ${
+          className={`flex items-center w-[60vw] sm:w-[25rem] md:w-[31.25rem] lg:w-[37.5rem] bg-white h-full space-x-2 border-2 p-3 rounded-lg ${
             trackingError == "" ? "focus-within:border-primary" : ""
           }  ${
             trackingError == ""
@@ -47,14 +49,14 @@ const Search = () => {
         >
           {loading ? (
             <>
-              <CircularProgress size="14px" sx={{ color: "white" }} />
+              <CircularProgress size="0.875rem" sx={{ color: "white" }} />
               <h1>Tracking</h1>
             </>
           ) : (
             <h1>Track</h1>
           )}
         </button>
-      </div>
+      </form>
       <h1 className="text-error font-semibold text-sm">{trackingError}</h1>
     </div>
   );
