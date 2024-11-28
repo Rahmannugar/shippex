@@ -25,7 +25,7 @@ const NotFound = () => {
       {token ? (
         <div className="h-screen flex flex-col">
           <div className="p-7 md:p-10 justify-start">
-            <Search />
+            <Search error={false} setError={undefined} />
           </div>
 
           <div className="flex-grow flex flex-col justify-center items-center text-center">

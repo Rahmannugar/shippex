@@ -3,9 +3,12 @@
 import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 
-const Signin = () => {
+interface Props {
+  setIsLoggedIn: any;
+}
+
+const Signin = ({ setIsLoggedIn }: Props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [checked, setChecked] = useState(false);
@@ -72,11 +75,9 @@ const Signin = () => {
           setUsername("");
           setPassword("");
           setLoading(false);
-
-          const token = response.data.full_name;
-          Cookies.set("token", token, { expires: 2 / 24, path: "/" });
-
-          window.location.reload();
+          setIsLoggedIn(true);
+          localStorage.setItem("isLoggedIn", "true");
+          // window.location.reload();
         }
       } catch (error: any) {
         console.error("Login failed:", error);
@@ -161,9 +162,11 @@ const Signin = () => {
                 className="border-none focus:outline-none w-full h-full placeholder:text-[#6B7280] text-[#000000] text-[0.938rem] font-medium"
               />
             </div>
-            <h1 className="text-error font-semibold text-sm">
-              {userNameError}
-            </h1>
+            {userNameError && (
+              <h1 className="text-error font-medium text-sm">
+                {userNameError}
+              </h1>
+            )}
           </div>
 
           {/* password */}
@@ -257,9 +260,11 @@ const Signin = () => {
                 />
               </svg>
             </div>
-            <h1 className="text-error font-semibold text-sm">
-              {passwordError}
-            </h1>
+            {passwordError && (
+              <h1 className="text-error font-medium text-sm">
+                {passwordError}
+              </h1>
+            )}
           </div>
 
           {/* Remember me checkbox and submit button */}
