@@ -77,6 +77,7 @@ const Signin = ({ setIsLoggedIn }: Props) => {
           setLoading(false);
           setIsLoggedIn(true);
           localStorage.setItem("isLoggedIn", "true");
+        
           // window.location.reload();
         }
       } catch (error: any) {
