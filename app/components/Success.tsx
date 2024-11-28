@@ -5,16 +5,18 @@ import Image from "next/image";
 const Success = () => {
   return (
     <div className="flex flex-col md:flex-row md:space-x-10 items-center md:items-baseline lg:space-x-16 xl:space-x-24 space-y-10 md:space-y-0 2xl:justify-center">
-      <div className="h-[523px] md:h-[600px] w-full md:w-[25rem] relative lg:w-[31.25rem] 2xl:w-[43.75rem] rounded-xl border-2">
+      <div className="h-[550px] md:h-[600px] w-full md:w-[25rem] relative lg:w-[31.25rem] 2xl:w-[43.75rem] rounded-xl border-2">
         <div className="p-5">
-          <h1 className="font-bold text-[#1F2937] text-lg">453200001635333</h1>
+          <h1 className="font-bold text-[#1F2937] text-sm md:">
+            453200001635333
+          </h1>
           <h1 className="text-[#6B7280] mt-2" style={{ letterSpacing: "0.5%" }}>
             <span>Last updated 16/12/2023</span> <span>11:33 AM</span>
           </h1>
           {/* details section */}
           <div className="px-5 mt-10 flex flex-col items-center space-y-7 md:space-y-10">
             {/* sender */}
-            <div className="flex items-center justify-between md:justify-normal w-full font-medium text-sm md:text-lg">
+            <div className="flex items-center justify-between w-full font-medium text-sm md text-sm:md:">
               <div className="flex items-center space-x-3">
                 <svg
                   width="16"
@@ -38,11 +40,13 @@ const Success = () => {
                 </svg>
                 <h1 className="text-[#6B7280]">Sender</h1>
               </div>
-              <h1 className="text-[#1F2937]">Mohamed Manna</h1>
+              <div>
+                <h1 className="text-[#1F2937]">Mohamed Manna</h1>
+              </div>
             </div>
 
             {/* consignee */}
-            <div className="flex items-center justify-between md:justify-normal w-full font-medium text-sm md:text-lg">
+            <div className="flex items-center justify-between w-full font-medium text-sm md text-sm:md:">
               <div className="flex items-center space-x-3">
                 <svg
                   width="16"
@@ -67,11 +71,13 @@ const Success = () => {
 
                 <h1 className="text-[#6B7280]">Consignee</h1>
               </div>
-              <h1 className="text-[#1F2937]">Mohamed Manna</h1>
+              <div>
+                <h1 className="text-[#1F2937]">Mohamed Manna</h1>
+              </div>
             </div>
 
             {/* origin address */}
-            <div className="flex items-center justify-between md:justify-normal w-full font-medium text-sm md:text-lg">
+            <div className="flex items-center justify-between w-full font-medium text-sm md text-sm:md:">
               <div className="flex items-center space-x-3">
                 <svg
                   width="16"
@@ -102,13 +108,15 @@ const Success = () => {
 
                 <h1 className="text-[#6B7280]">Origin Address</h1>
               </div>
-              <h1 className="text-[#1F2937]">
-                Ahmed Hassan 25, Nile Street, Zamalek Cairo Egypt
-              </h1>
+              <div>
+                <h1 className="text-[#1F2937]">
+                  Ahmed Hassan 25, Nile Street, Zamalek Cairo Egypt
+                </h1>
+              </div>
             </div>
 
             {/* destination address */}
-            <div className="flex items-center justify-between md:justify-normal w-full font-medium text-sm md:text-lg">
+            <div className="flex items-center justify-between w-full font-medium text-sm md text-sm:md:">
               <div className="flex items-center space-x-3">
                 <svg
                   width="16"
@@ -133,13 +141,15 @@ const Success = () => {
 
                 <h1 className="text-[#6B7280]">Destination Address</h1>
               </div>
-              <h1 className="text-[#1F2937]">
-                Ahmed Hassan 25, Nile Street, Zamalek Cairo Egypt
-              </h1>
+              <div>
+                <h1 className="text-[#1F2937]">
+                  Ahmed Hassan 25, Nile Street, Zamalek Cairo Egypt
+                </h1>
+              </div>
             </div>
 
             {/* shipping service */}
-            <div className="flex items-center justify-between md:justify-normal w-full font-medium text-sm md:text-lg">
+            <div className="flex items-center justify-between w-full font-medium text-sm md text-sm:md:">
               <div className="flex items-center space-x-3">
                 <svg
                   width="16"
@@ -182,12 +192,14 @@ const Success = () => {
 
                 <h1 className="text-[#6B7280]">Shipping Service</h1>
               </div>
-              <h1 className="text-[#1F2937]">Express Service</h1>
+              <div>
+                <h1 className="text-[#1F2937]">Express Service</h1>
+              </div>
             </div>
           </div>
         </div>
         {/* total amount */}
-        <div className="bg-[#F8FAFC] text-lg font-medium flex items-center justify-between md:justify-normal px-10 py-7 rounded-b-xl absolute bottom-0 w-full">
+        <div className="bg-[#F8FAFC] text-sm md:text-lg font-medium flex items-center justify-between px-10 py-7 rounded-b-xl absolute bottom-0 w-full">
           <div className="flex items-center space-x-3">
             <svg
               width="16"
@@ -218,13 +230,17 @@ const Success = () => {
 
             <h1 className="text-[#6B7280]">Total COD Amount</h1>
           </div>
-          <h1 className="text-[#1F2937]">100 EGP</h1>
+          <div>
+            <h1 className="text-[#1F2937]">100 EGP</h1>
+          </div>
         </div>
       </div>
 
       {/* timeline section */}
       <div className="py-5 h-[495px]">
-        <h1 className="font-bold text-[#1F2937] text-lg">TIMELINE</h1>
+        <h1 className="font-bold text-[#1F2937] text-center md:text-justify text-sm md:">
+          TIMELINE
+        </h1>
 
         {/* timeline div */}
         <div className="mt-7 space-y-2">
