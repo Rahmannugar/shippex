@@ -15,7 +15,9 @@ const User = () => {
         <Search error={error} setError={setError} />
       </div>
 
-      {error ? <Error /> : <Success />}
+      <div className="px-7 md:px-10 py-5 md:py-0">
+        {error ? <Error /> : <Success />}
+      </div>
     </div>
   );
 };

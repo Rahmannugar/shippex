@@ -50,7 +50,7 @@ const Signin = ({ isLoggedIn, setIsLoggedIn }: Props) => {
 
       const response = await axios.post(api_url, formData, {
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "multipart/form-data",
         },
         withCredentials: true,
       });
@@ -59,10 +59,7 @@ const Signin = ({ isLoggedIn, setIsLoggedIn }: Props) => {
         setPassword("");
         setLoading(false);
         setIsLoggedIn(true);
-        const cookies = response.headers["set-cookie"];
-        if (cookies) {
-          localStorage.setItem("session_cookies", cookies.join("; "));
-        }
+        console.log(response.data);
         localStorage.setItem("isLoggedIn", "true");
       }
     } catch (error: any) {
