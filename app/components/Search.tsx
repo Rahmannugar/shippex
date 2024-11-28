@@ -1,6 +1,6 @@
 import { CircularProgress } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   error: boolean;
@@ -9,18 +9,25 @@ interface Props {
 
 const Search = ({ error, setError }: Props) => {
   const [trackingId, setTrackingId] = useState("");
-  const [trackingError, setTrackingError] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const api_tracking_id = process.env.NEXT_PUBLIC_API_TRACKING_ID!;
+  useEffect(() => {
+    if ((error && trackingId !== "") || (error && trackingId == "")) {
+      setError(false);
+    }
+    if (trackingId !== "") {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [trackingId]);
   const api_shipment_url = process.env.NEXT_PUBLIC_API_SHIPMENT_URL!;
 
   const handleTrackingIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTrackingId(e.target.value);
     if (e.target.value === "") {
       setDisabled(true);
-      setTrackingError("");
     } else {
       setDisabled(false);
     }
@@ -28,13 +35,7 @@ const Search = ({ error, setError }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setTrackingError("");
     setLoading(true);
-    if (trackingId != api_tracking_id) {
-      setTrackingError("Please enter a valid AWB");
-      setLoading(false);
-      return;
-    }
     try {
       const filters = {
         doctype: "AWB",
@@ -42,7 +43,8 @@ const Search = ({ error, setError }: Props) => {
           name: ["like", `%${trackingId}%`],
         },
       };
-      const response = await axios.post(api_shipment_url, filters, {
+      const response = await axios.get(api_shipment_url, {
+        params: filters,
         headers: {
           "Content-Type": "application/json",
         },
@@ -64,13 +66,13 @@ const Search = ({ error, setError }: Props) => {
           <div
             tabIndex={0}
             id="here"
-            className={`flex items-center w-[60vw] sm:w-[25rem] md:w-[31.25rem] lg:w-[37.5rem] bg-white h-full space-x-2 border-2 p-3 rounded-lg ${
-              trackingError == "" ? "focus-within:border-primary" : ""
+            className={`flex items-center w-[60vw] sm:w-[25rem] md:w-[31.25rem] lg:w-[37.5rem] shadow-sm bg-white h-full space-x-2 border-2 p-3 rounded-lg ${
+              !error ? "focus-within:border-primary" : ""
             }  ${
-              trackingError == ""
+              !error
                 ? " focus-within:ring-4 focus-within:ring-[CEE0FF]"
                 : "ring-4 ring-[#f6d5d5] border-error"
-            }" ${trackingError == "" ? "" : "border-error"} `}
+            }" ${!error ? "" : "border-error"} `}
           >
             <input
               type="text"
@@ -99,9 +101,17 @@ const Search = ({ error, setError }: Props) => {
             )}
           </button>
         </div>
-        {trackingError && (
-          <h1 className="text-error font-medium text-sm">{trackingError}</h1>
-        )}
+        <div
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${
+            error ? "max-h-6" : "max-h-0"
+          }`}
+        >
+          {error && (
+            <h1 className="text-error font-medium text-sm">
+              Please enter a valid AWB
+            </h1>
+          )}
+        </div>
       </form>
     </div>
   );

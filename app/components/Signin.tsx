@@ -5,20 +5,23 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 interface Props {
+  isLoggedIn: boolean;
   setIsLoggedIn: any;
 }
 
-const Signin = ({ setIsLoggedIn }: Props) => {
+const Signin = ({ isLoggedIn, setIsLoggedIn }: Props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [checked, setChecked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [disabled, setDisabled] = useState(true);
-  const [userNameError, setUserNameError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (error && (username !== "" || password !== "")) {
+      setError(false);
+    }
     if (username !== "" && password !== "" && checked) {
       setDisabled(false);
     } else {
@@ -27,62 +30,45 @@ const Signin = ({ setIsLoggedIn }: Props) => {
   }, [username, password, checked]);
 
   const api_url = process.env.NEXT_PUBLIC_API_SIGNIN_URL!;
-  const api_username = process.env.NEXT_PUBLIC_API_USERNAME!;
-  const api_password = process.env.NEXT_PUBLIC_API_PASSWORD!;
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
-    if (e.target.value === "") {
-      setUserNameError("");
-    }
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-    if (e.target.value === "") {
-      setPasswordError("");
-    }
   };
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setUserNameError("");
-    setPasswordError("");
     setLoading(true);
+    setShowPassword(false);
+    try {
+      const formData = new FormData();
+      formData.append("usr", username);
+      formData.append("pwd", password);
 
-    if (username != api_username) {
-      setUserNameError("User doesn't exist");
-      setLoading(false);
-      return;
-    }
-    if (password != api_password) {
-      setPasswordError("Incorrect password");
-      setLoading(false);
-      return;
-    } else {
-      try {
-        const formData = new FormData();
-        formData.append("usr", username);
-        formData.append("pwd", password);
-
-        const response = await axios.post(api_url, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        });
-        if (response.status == 200) {
-          setUsername("");
-          setPassword("");
-          setLoading(false);
-          setIsLoggedIn(true);
-          localStorage.setItem("isLoggedIn", "true");
-        
-          // window.location.reload();
+      const response = await axios.post(api_url, formData, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        withCredentials: true,
+      });
+      if (response.status == 200) {
+        setUsername("");
+        setPassword("");
+        setLoading(false);
+        setIsLoggedIn(true);
+        const cookies = response.headers["set-cookie"];
+        if (cookies) {
+          localStorage.setItem("session_cookies", cookies.join("; "));
         }
-      } catch (error: any) {
-        console.error("Login failed:", error);
+        localStorage.setItem("isLoggedIn", "true");
       }
+    } catch (error: any) {
+      console.error("Login failed:", error);
+      setLoading(false);
+      setError(true);
     }
   };
 
@@ -112,12 +98,12 @@ const Signin = ({ setIsLoggedIn }: Props) => {
               tabIndex={0}
               id="here"
               className={`flex items-center w-full h-full space-x-2 border-2 p-3 rounded-lg ${
-                userNameError == "" ? "focus-within:border-primary" : ""
+                !error ? "focus-within:border-primary" : ""
               }  ${
-                userNameError == ""
+                !error
                   ? " focus-within:ring-4 focus-within:ring-[CEE0FF]"
                   : "ring-4 ring-[#f6d5d5] border-error"
-              }" ${userNameError == "" ? "" : "border-error"} `}
+              }" ${!error ? "" : "border-error"} `}
             >
               <svg
                 width="16"
@@ -160,14 +146,20 @@ const Signin = ({ setIsLoggedIn }: Props) => {
                 name="username"
                 value={username}
                 onChange={handleUsernameChange}
-                className="border-none focus:outline-none w-full h-full placeholder:text-[#6B7280] text-[#000000] text-[0.938rem] font-medium"
+                className="border-none focus:outline-none outline-none w-full h-full placeholder:text-[#6B7280] text-[#000000] text-[0.938rem] font-medium"
               />
             </div>
-            {userNameError && (
-              <h1 className="text-error font-medium text-sm">
-                {userNameError}
-              </h1>
-            )}
+            <div
+              className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                error ? "max-h-6" : "max-h-0"
+              }`}
+            >
+              {error && (
+                <h1 className="text-error font-medium text-sm">
+                  Invalid login credentials
+                </h1>
+              )}
+            </div>
           </div>
 
           {/* password */}
@@ -187,12 +179,12 @@ const Signin = ({ setIsLoggedIn }: Props) => {
               tabIndex={0}
               id="here"
               className={`flex items-center w-full h-full space-x-2 border-2 p-3 rounded-lg ${
-                passwordError == "" ? "focus-within:border-primary" : ""
+                !error ? "focus-within:border-primary" : ""
               }  ${
-                passwordError == ""
+                !error
                   ? " focus-within:ring-4 focus-within:ring-[CEE0FF]"
                   : "ring-4 ring-[#f6d5d5] border-error"
-              }" ${passwordError == "" ? "" : "border-error"} `}
+              }" ${!error ? "" : "border-error"} `}
             >
               <svg
                 width="16"
@@ -223,7 +215,7 @@ const Signin = ({ setIsLoggedIn }: Props) => {
                 name="password"
                 value={password}
                 onChange={handlePasswordChange}
-                className="border-none focus:outline-none w-full h-full placeholder:text-[#6B7280] text-[#000000] text-[0.938rem] font-medium"
+                className="border-none focus:outline-none outline-none w-full h-full placeholder:text-[#6B7280] text-[#000000] text-[0.938rem] font-medium"
               />
 
               <svg
@@ -261,11 +253,17 @@ const Signin = ({ setIsLoggedIn }: Props) => {
                 />
               </svg>
             </div>
-            {passwordError && (
-              <h1 className="text-error font-medium text-sm">
-                {passwordError}
-              </h1>
-            )}
+            <div
+              className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                error ? "max-h-6" : "max-h-0"
+              }`}
+            >
+              {error && (
+                <h1 className="text-error font-medium text-sm">
+                  Invalid login credentials
+                </h1>
+              )}
+            </div>
           </div>
 
           {/* Remember me checkbox and submit button */}

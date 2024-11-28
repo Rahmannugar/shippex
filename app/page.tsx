@@ -30,7 +30,7 @@ const Page = () => {
       ) : (
         <div className="h-screen flex flex-col">
           <Navbar />
-          <Signin setIsLoggedIn={setIsLoggedIn} />
+          <Signin isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         </div>
       )}
     </div>

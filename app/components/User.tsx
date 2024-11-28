@@ -5,6 +5,7 @@ import Search from "./Search";
 import Default from "./Default";
 import { useState } from "react";
 import Error from "./Error";
+import Success from "./Success";
 
 const User = () => {
   const [error, setError] = useState(false);
@@ -14,7 +15,7 @@ const User = () => {
         <Search error={error} setError={setError} />
       </div>
 
-      {error ? <Error /> : <Default />}
+      {error ? <Error /> : <Success />}
     </div>
   );
 };
