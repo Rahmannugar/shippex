@@ -1,17 +1,20 @@
 "use client";
+
+import Image from "next/image";
+
 const Success = () => {
   return (
-    <div className="flex flex-col  md:flex-row">
-      <div className="h-[32.688rem] w-full md:w-[25rem] relative lg:w-[31.25rem] 2xl:w-[43.75rem] rounded-xl border-2">
+    <div className="flex flex-col md:flex-row md:space-x-10 items-center md:items-baseline lg:space-x-16 xl:space-x-24 space-y-10 md:space-y-0 2xl:justify-center">
+      <div className="h-[523px] md:h-[600px] w-full md:w-[25rem] relative lg:w-[31.25rem] 2xl:w-[43.75rem] rounded-xl border-2">
         <div className="p-5">
           <h1 className="font-bold text-[#1F2937] text-lg">453200001635333</h1>
           <h1 className="text-[#6B7280] mt-2" style={{ letterSpacing: "0.5%" }}>
             <span>Last updated 16/12/2023</span> <span>11:33 AM</span>
           </h1>
           {/* details section */}
-          <div className="px-5 mt-10 flex flex-col items-center space-y-7">
+          <div className="px-5 mt-10 flex flex-col items-center space-y-7 md:space-y-10">
             {/* sender */}
-            <div className="flex items-center w-full justify-between font-medium text-sm md:text-lg">
+            <div className="flex items-center justify-between md:justify-normal w-full font-medium text-sm md:text-lg">
               <div className="flex items-center space-x-3">
                 <svg
                   width="16"
@@ -39,7 +42,7 @@ const Success = () => {
             </div>
 
             {/* consignee */}
-            <div className="flex items-center justify-between w-full font-medium text-sm md:text-lg">
+            <div className="flex items-center justify-between md:justify-normal w-full font-medium text-sm md:text-lg">
               <div className="flex items-center space-x-3">
                 <svg
                   width="16"
@@ -68,7 +71,7 @@ const Success = () => {
             </div>
 
             {/* origin address */}
-            <div className="flex items-center justify-between w-full font-medium text-sm md:text-lg">
+            <div className="flex items-center justify-between md:justify-normal w-full font-medium text-sm md:text-lg">
               <div className="flex items-center space-x-3">
                 <svg
                   width="16"
@@ -105,7 +108,7 @@ const Success = () => {
             </div>
 
             {/* destination address */}
-            <div className="flex items-center justify-between w-full font-medium text-sm md:text-lg">
+            <div className="flex items-center justify-between md:justify-normal w-full font-medium text-sm md:text-lg">
               <div className="flex items-center space-x-3">
                 <svg
                   width="16"
@@ -136,7 +139,7 @@ const Success = () => {
             </div>
 
             {/* shipping service */}
-            <div className="flex items-center justify-between w-full font-medium text-sm md:text-lg">
+            <div className="flex items-center justify-between md:justify-normal w-full font-medium text-sm md:text-lg">
               <div className="flex items-center space-x-3">
                 <svg
                   width="16"
@@ -184,7 +187,7 @@ const Success = () => {
           </div>
         </div>
         {/* total amount */}
-        <div className="bg-[#F8FAFC] text-lg font-medium flex items-center px-10 py-7 rounded-b-xl absolute bottom-0 w-full">
+        <div className="bg-[#F8FAFC] text-lg font-medium flex items-center justify-between md:justify-normal px-10 py-7 rounded-b-xl absolute bottom-0 w-full">
           <div className="flex items-center space-x-3">
             <svg
               width="16"
@@ -218,7 +221,163 @@ const Success = () => {
           <h1 className="text-[#1F2937]">100 EGP</h1>
         </div>
       </div>
-      <div>gedfgdy</div>
+
+      {/* timeline section */}
+      <div className="py-5 h-[495px]">
+        <h1 className="font-bold text-[#1F2937] text-lg">TIMELINE</h1>
+
+        {/* timeline div */}
+        <div className="mt-7 space-y-2">
+          <div className="flex space-x-7">
+            <div
+              className="text-sm font-medium text-[#6B7280]"
+              style={{ letterSpacing: "0.5%" }}
+            >
+              <h1>12:05PM</h1>
+              <h1>Dec 16, 2023</h1>
+            </div>
+            <div className="flex flex-col items-center space-y-3">
+              <div className="rounded-full h-[0.5rem] w-[0.5rem] bg-[#9CA3AF]"></div>
+              <div className="bg-[#E5E7EB] w-[0.100rem] h-[98px]"></div>
+            </div>
+
+            <div className="space-y-4" style={{ letterSpacing: "0.5%" }}>
+              <div className="space-y-1">
+                <h1 className="font-semibold text-[#1F2937]">
+                  Shipment created
+                </h1>
+                <h1 className="font-medium text-[#6B7280]">
+                  Shipment Description
+                </h1>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-[1.125rem] h-[1.125rem] rounded-full relative">
+                  <Image
+                    fill
+                    src="/not-found.png"
+                    alt="default-home"
+                    className="object-cover"
+                  />
+                </div>
+                <h1 className="text-[0.938rem] font-semibold text-[#1F2937]">
+                  Abdo Saeed
+                </h1>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex space-x-7">
+            <div
+              className="text-sm font-medium text-[#6B7280]"
+              style={{ letterSpacing: "0.5%" }}
+            >
+              <h1>12:05PM</h1>
+              <h1>Dec 16, 2023</h1>
+            </div>
+            <div className="flex flex-col items-center space-y-3">
+              <div className="rounded-full h-[0.5rem] w-[0.5rem] bg-[#9CA3AF]"></div>
+              <div className="bg-[#E5E7EB] w-[0.100rem] h-[98px]"></div>
+            </div>
+
+            <div className="space-y-4" style={{ letterSpacing: "0.5%" }}>
+              <div className="space-y-1">
+                <h1 className="font-semibold text-[#1F2937]">
+                  Shipment created
+                </h1>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-[1.125rem] h-[1.125rem] rounded-full relative">
+                  <Image
+                    fill
+                    src="/not-found.png"
+                    alt="default-home"
+                    className="object-cover"
+                  />
+                </div>
+                <h1 className="text-[0.938rem] font-semibold text-[#1F2937]">
+                  Abdo Saeed
+                </h1>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex space-x-7">
+            <div
+              className="text-sm font-medium text-[#6B7280]"
+              style={{ letterSpacing: "0.5%" }}
+            >
+              <h1>12:05PM</h1>
+              <h1>Dec 16, 2023</h1>
+            </div>
+            <div className="flex flex-col items-center space-y-3">
+              <div className="rounded-full h-[0.5rem] w-[0.5rem] bg-[#9CA3AF]"></div>
+              <div className="bg-[#E5E7EB] w-[0.100rem] h-[98px]"></div>
+            </div>
+
+            <div className="space-y-4" style={{ letterSpacing: "0.5%" }}>
+              <div className="space-y-1">
+                <h1 className="font-semibold text-[#1F2937]">
+                  Shipment created
+                </h1>
+                <h1 className="font-medium text-[#6B7280]">
+                  Shipment Description
+                </h1>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-[1.125rem] h-[1.125rem] rounded-full relative">
+                  <Image
+                    fill
+                    src="/not-found.png"
+                    alt="default-home"
+                    className="object-cover"
+                  />
+                </div>
+                <h1 className="text-[0.938rem] font-semibold text-[#1F2937]">
+                  Abdo Saeed
+                </h1>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex space-x-7">
+            <div
+              className="text-sm font-medium text-[#6B7280]"
+              style={{ letterSpacing: "0.5%" }}
+            >
+              <h1>12:05PM</h1>
+              <h1>Dec 16, 2023</h1>
+            </div>
+            <div className="flex flex-col items-center space-y-3">
+              <div className="rounded-full h-[0.5rem] w-[0.5rem] bg-[#9CA3AF]"></div>
+              <div className="bg-[#E5E7EB] w-[0.100rem] h-[98px]"></div>
+            </div>
+
+            <div className="space-y-4" style={{ letterSpacing: "0.5%" }}>
+              <div className="space-y-1">
+                <h1 className="font-semibold text-[#1F2937]">
+                  Shipment created
+                </h1>
+                <h1 className="font-medium text-[#6B7280]">
+                  Shipment Description
+                </h1>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-[1.125rem] h-[1.125rem] rounded-full relative">
+                  <Image
+                    fill
+                    src="/not-found.png"
+                    alt="default-home"
+                    className="object-cover"
+                  />
+                </div>
+                <h1 className="text-[0.938rem] font-semibold text-[#1F2937]">
+                  Abdo Saeed
+                </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
