@@ -4,8 +4,8 @@ Shippex is a shipment tracker application designed to provide seamless tracking 
 
 ## Project features
 
-User Login: Secure login with valid credentials.
-Shipment Tracking: Fetch real-time shipment details using a tracking ID.
+1. User Login: Secure login with valid credentials.
+2. Shipment Tracking: Fetch real-time shipment details using a tracking ID.
 
 ## How to use
 1. Login:
@@ -19,7 +19,8 @@ Enter your shipment's Tracking ID.
 Click on the track button to view the shipment status and other details.
 
 ## Developer usage
-Clone the Repository with git clone https://github.com/Rahmannugar/shippex.git
-Install dependencies with npm run dev and run locally. Unzip the provided .zip file containing environment configuration files and place them in the project root directory.
+1. Clone the Repository with git clone https://github.com/Rahmannugar/shippex.git
+2. Install dependencies with npm run dev and run locally
+3. Unzip the provided .zip file containing environment configuration files and place them in the project root directory.
 
 Note: The url has authorization parameters so youll need to use the local nextjs route to bypass the cors error and sign in and fetch shipment details
