@@ -1,14 +1,19 @@
 "use client";
 
 import Image from "next/image";
+import { trackingDataProps } from "./User";
 
-const Success = () => {
+interface Props {
+  trackingData: trackingDataProps | null;
+}
+
+const Success = ({ trackingData }: Props) => {
   return (
     <div className="flex flex-col px-7 md:px-10 py-10 md:flex-row md:space-x-10 items-center md:items-baseline lg:space-x-16 xl:space-x-24 space-y-10 md:space-y-0 2xl:justify-center">
       <div className="h-[550px] md:h-[600px] w-full md:w-[25rem] relative lg:w-[31.25rem] 2xl:w-[43.75rem] rounded-xl border-2">
         <div className="p-5">
           <h1 className="font-bold text-[#1F2937] text-sm md:">
-            453200001635333
+            {trackingData?.name}
           </h1>
           <h1 className="text-[#6B7280] mt-2" style={{ letterSpacing: "0.5%" }}>
             <span>Last updated 16/12/2023</span> <span>11:33 AM</span>
@@ -41,7 +46,7 @@ const Success = () => {
                 <h1 className="text-[#6B7280]">Sender</h1>
               </div>
               <div>
-                <h1 className="text-[#1F2937]">Mohamed Manna</h1>
+                <h1 className="text-[#1F2937]">{trackingData?.sender}</h1>
               </div>
             </div>
 
@@ -72,7 +77,7 @@ const Success = () => {
                 <h1 className="text-[#6B7280]">Consignee</h1>
               </div>
               <div>
-                <h1 className="text-[#1F2937]">Mohamed Manna</h1>
+                <h1 className="text-[#1F2937]">{trackingData?.consignee}</h1>
               </div>
             </div>
 
@@ -193,7 +198,9 @@ const Success = () => {
                 <h1 className="text-[#6B7280]">Shipping Service</h1>
               </div>
               <div>
-                <h1 className="text-[#1F2937]">Express Service</h1>
+                <h1 className="text-[#1F2937]">
+                  {trackingData?.shipping_service}
+                </h1>
               </div>
             </div>
           </div>

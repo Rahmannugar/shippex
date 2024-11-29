@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 interface Props {
   error: boolean;
   setError: any;
+  setSuccess: any;
+  setTrackingData: any;
 }
 
-const Search = ({ error, setError }: Props) => {
+const Search = ({ error, setError, setSuccess, setTrackingData }: Props) => {
   const [trackingId, setTrackingId] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -39,17 +41,25 @@ const Search = ({ error, setError }: Props) => {
       const response = await axios.post(
         "/api/get",
         {
-          doctype: "AWB", // Always include doctype
+          doctype: "AWB",
           filters: {
-            name: ["like", `%${trackingId}%`], // Filters object should be passed here
+            name: ["like", `%${trackingId}%`],
           },
         },
         {
-          withCredentials: true, // Ensure credentials are sent along with the request
+          withCredentials: true,
         }
       );
 
-      console.log("Response:", response.data);
+      console.log("Response:", response.data.message);
+      if (response.status === 200) {
+        setError(false);
+        setLoading(false);
+        setSuccess(true);
+        setTrackingData(response.data.message);
+      } else {
+        setLoading(false);
+      }
     } catch (error: any) {
       console.error("Error fetching shipment data:", error);
       setLoading(false);

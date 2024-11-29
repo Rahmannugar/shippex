@@ -5,8 +5,6 @@ export async function POST(request: NextRequest) {
   const shipment_url = process.env.SHIPMENT_URL!;
 
   try {
-    // Construct the filters object like in your Postman example
-
     const { doctype, filters } = await request.json();
 
     if (!doctype || !filters?.name) {
@@ -22,18 +20,18 @@ export async function POST(request: NextRequest) {
       .map((cookie) => `${cookie.name}=${cookie.value}`) // Format as "name=value"
       .join("; "); // Join all cookies with "; "
 
-    console.log("Formatted Cookies: ", cookiesString);
-    // Send the request as a POST request with the body data
+    // console.log("Formatted Cookies: ", cookiesString);
+
     const response = await axios.post(
       shipment_url,
       { doctype, filters },
       {
         headers: {
           "Content-Type": "application/json",
-          Cookie: cookiesString, // Add the cookies if necessary
+          Cookie: cookiesString,
           Origin: "http://localhost:3000",
         },
-        withCredentials: true, // Ensure credentials are sent along with the request
+        withCredentials: true,
       }
     );
 
@@ -43,12 +41,12 @@ export async function POST(request: NextRequest) {
 
     return nextResponse;
   } catch (error: any) {
-    console.error(
-      "Error fetching shipment data:",
-      error.response?.data || error.message
-    );
+    // console.error(
+    //   "Error fetching shipment data:",
+    //   error.response?.data || error.message
+    // );
     return NextResponse.json(
-      { error: error.response?.data || "Tracking search failed" },
+      { error: error.response?.data || "Error fetching shipment data:" },
       { status: error.response?.status || 500 }
     );
   }

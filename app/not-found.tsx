@@ -27,7 +27,12 @@ const NotFound = () => {
       {isLoggedIn ? (
         <div className="h-screen flex flex-col">
           <div className="p-7 md:p-10 justify-start">
-            <Search error={false} setError={undefined} />
+            <Search
+              error={false}
+              setError={undefined}
+              setSuccess={undefined}
+              setTrackingData={undefined}
+            />
           </div>
 
           <div className="flex-grow flex flex-col justify-center items-center text-center">
