@@ -66,7 +66,6 @@ const Search = ({
         }
       );
 
-      console.log("Response:", response.data.message);
       if (response.status === 200) {
         setError(false);
         setSuccess(true);

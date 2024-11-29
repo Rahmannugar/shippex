@@ -2,13 +2,10 @@
 
 import { CircularProgress } from "@mui/material";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-interface Props {
-  setIsLoggedIn: any;
-}
-
-const Signin = ({ setIsLoggedIn }: Props) => {
+const Signin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [checked, setChecked] = useState(false);
@@ -16,6 +13,8 @@ const Signin = ({ setIsLoggedIn }: Props) => {
   const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (error && (username !== "" || password !== "")) {
@@ -55,8 +54,7 @@ const Signin = ({ setIsLoggedIn }: Props) => {
         setUsername("");
         setPassword("");
         setLoading(false);
-        setIsLoggedIn(true);
-        localStorage.setItem("isLoggedIn", "true");
+        window.location.reload();
       } else {
         throw new Error("Invalid details");
       }

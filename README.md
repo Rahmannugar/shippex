@@ -18,6 +18,8 @@ Once logged in, locate the Tracking ID field.
 Enter your shipment's Tracking ID.
 Click on the track button to view the shipment status and other details.
 
+Note: The application automatically logs you out after 1 hour.
+
 ## Developer usage
 1. Clone the Repository with git clone https://github.com/Rahmannugar/shippex.git
 2. Install dependencies with npm run dev and run locally

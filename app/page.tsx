@@ -9,24 +9,30 @@ import { motion } from "framer-motion";
 
 const Page = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-  const [pageLoaded, setpageLoaded] = useState(false);
+  const [pageLoaded, setPageLoaded] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      setpageLoaded(true);
-    }, 2000);
-
-    const storedLoginStatus = localStorage.getItem("isLoggedIn");
-    if (storedLoginStatus === "true") {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
+    const checkAuthStatus = async () => {
+      try {
+        const response = await fetch("/api/auth", {
+          credentials: "include",
+        });
+        if (!response.ok) {
+          throw new Error("Authentication failed");
+        }
+        const result = await response.json();
+        setIsLoggedIn(result.isAuthenticated);
+      } catch (error: any) {
+        console.error("Auth check failed:", error.message);
+        setIsLoggedIn(false);
+      } finally {
+        setTimeout(() => {
+          setPageLoaded(true);
+        }, 2000);
+      }
+    };
+    checkAuthStatus();
   }, []);
-
-  if (isLoggedIn === null) {
-    return;
-  }
 
   return (
     <>
@@ -45,7 +51,7 @@ const Page = () => {
           ) : (
             <div className="h-screen flex flex-col">
               <Navbar />
-              <Signin setIsLoggedIn={setIsLoggedIn} />
+              <Signin />
             </div>
           )}
         </motion.div>
