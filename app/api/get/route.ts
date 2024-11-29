@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
       .join("; "); // Join all cookies with "; "
 
     // console.log("Formatted Cookies: ", cookiesString);
-
+    // Send the request as a POST request with the body data
     const response = await axios.post(
       shipment_url,
       { doctype, filters },

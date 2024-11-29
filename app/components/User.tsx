@@ -11,10 +11,11 @@ export interface trackingDataProps {
   name: string;
   sender: string;
   consignee: string;
+  modified: string;
   originAddress: string;
   destinationAddress: string;
   shipping_service: string;
-  totalAmount: string;
+  total_cod: number;
   timeline: Array<{
     time: string;
     date: string;

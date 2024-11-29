@@ -8,6 +8,23 @@ interface Props {
 }
 
 const Success = ({ trackingData }: Props) => {
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const am_or_pm = hours >= 12 ? "PM" : "AM";
+    const formattedHours = hours % 12 || 12;
+
+    return `${day}/${month}/${year} ${formattedHours}:${minutes} ${am_or_pm}`;
+  };
+
+  const lastUpdated = trackingData?.modified
+    ? formatDate(trackingData.modified)
+    : "Last updated not available";
+
   return (
     <div className="flex flex-col px-7 md:px-10 py-10 md:flex-row md:space-x-10 items-center md:items-baseline lg:space-x-16 xl:space-x-24 space-y-10 md:space-y-0 2xl:justify-center">
       <div className="h-[550px] md:h-[600px] w-full md:w-[25rem] relative lg:w-[31.25rem] 2xl:w-[43.75rem] rounded-xl border-2">
@@ -16,7 +33,7 @@ const Success = ({ trackingData }: Props) => {
             {trackingData?.name}
           </h1>
           <h1 className="text-[#6B7280] mt-2" style={{ letterSpacing: "0.5%" }}>
-            <span>Last updated 16/12/2023</span> <span>11:33 AM</span>
+            <span>Last updated {lastUpdated}</span>
           </h1>
           {/* details section */}
           <div className="px-5 mt-10 flex flex-col items-center space-y-7 md:space-y-10">
@@ -238,7 +255,7 @@ const Success = ({ trackingData }: Props) => {
             <h1 className="text-[#6B7280]">Total COD Amount</h1>
           </div>
           <div>
-            <h1 className="text-[#1F2937]">100 EGP</h1>
+            <h1 className="text-[#1F2937]">{trackingData?.total_cod} EGP</h1>
           </div>
         </div>
       </div>
