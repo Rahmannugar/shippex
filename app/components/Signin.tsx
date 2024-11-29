@@ -28,8 +28,6 @@ const Signin = ({ setIsLoggedIn }: Props) => {
     }
   }, [username, password, checked]);
 
-  const api_url = process.env.NEXT_PUBLIC_API_SIGNIN_URL!;
-
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
@@ -44,7 +42,7 @@ const Signin = ({ setIsLoggedIn }: Props) => {
     setShowPassword(false);
     try {
       const response = await axios.post(
-        "/api",
+        "/api/post",
         {
           usr: username,
           pwd: password,

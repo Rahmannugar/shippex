@@ -7,6 +7,7 @@ const Error = () => {
       <div className="w-[15.625rem] h-[9rem] relative">
         <Image
           fill
+          priority
           src="/no-results.png"
           alt="no-results"
           className="object-cover"

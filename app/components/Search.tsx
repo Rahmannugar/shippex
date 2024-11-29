@@ -22,7 +22,6 @@ const Search = ({ error, setError }: Props) => {
       setDisabled(true);
     }
   }, [trackingId]);
-  const api_shipment_url = process.env.NEXT_PUBLIC_API_SHIPMENT_URL!;
 
   const handleTrackingIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTrackingId(e.target.value);
@@ -37,19 +36,18 @@ const Search = ({ error, setError }: Props) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const filters = {
-        doctype: "AWB",
-        filters: {
-          name: ["like", `%${trackingId}%`],
+      const response = await axios.post(
+        "/api/get",
+        {
+          doctype: "AWB", // Always include doctype
+          filters: {
+            name: ["like", `%${trackingId}%`], // Filters object should be passed here
+          },
         },
-      };
-      const response = await axios.get(api_shipment_url, {
-        params: filters,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      });
+        {
+          withCredentials: true, // Ensure credentials are sent along with the request
+        }
+      );
 
       console.log("Response:", response.data);
     } catch (error: any) {

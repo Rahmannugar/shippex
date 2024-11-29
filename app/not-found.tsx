@@ -34,6 +34,7 @@ const NotFound = () => {
             <div className="w-[15.625rem] h-[9rem] relative">
               <Image
                 fill
+                priority
                 src="/not-found.png"
                 alt="default-home"
                 className="object-cover"

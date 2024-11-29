@@ -3,6 +3,7 @@ import axios from "axios";
 import FormData from "form-data";
 
 export async function POST(request: NextRequest) {
+  const signin_url = process.env.SIGNIN_URL!;
   try {
     const body = await request.json();
     const { usr, pwd } = body;
@@ -18,14 +19,13 @@ export async function POST(request: NextRequest) {
     formData.append("usr", usr);
     formData.append("pwd", pwd);
 
-    const response = await axios.post(
-      "https://shippex-demo.bc.brandimic.com/api/method/login",
-      formData,
-      {
-        headers: formData.getHeaders(),
-        withCredentials: true,
-      }
-    );
+    const response = await axios.post(signin_url, formData, {
+      headers: {
+        ...formData.getHeaders(),
+        Origin: "http://localhost:3000",
+      },
+      withCredentials: true,
+    });
 
     const nextResponse = NextResponse.json(response.data, {
       status: response.status,
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
           name: name.trim(),
           value: value.trim(),
           path: "/",
-          sameSite: "strict",
+          sameSite: "lax",
           httpOnly: isHttpOnly,
           secure: process.env.NODE_ENV === "production",
         });
