@@ -9,20 +9,29 @@ import NetworkError from "./NetworkError";
 
 export interface trackingDataProps {
   name: string;
+  currency: string;
+  owner: string;
   sender: string;
   consignee: string;
+  origin_address_line1: string;
+  origin_address_line2: string;
+  origin_city: string;
+  origin_country: string;
+  destination_address_line1: string;
+  destination_address_line2: string;
+  destination_city: string;
+  destination_country: string;
   modified: string;
+  creation: string;
+  posting_date: string;
+  posting_time: string;
+  delivery_due_date: string;
+  delivery_time: string;
   originAddress: string;
   destinationAddress: string;
   shipping_service: string;
   total_cod: number;
-  timeline: Array<{
-    time: string;
-    date: string;
-    event: string;
-    description: string;
-    person: string;
-  }>;
+  scans: [];
 }
 
 export interface ResponseProps {
@@ -74,7 +83,7 @@ const User = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
-              className="w-screen 2xl:flex 2xl:justify-center 2xl:items-center"
+              className="w-full 2xl:flex 2xl:justify-center 2xl:items-center"
             >
               <Success trackingData={trackingData} />
             </motion.div>

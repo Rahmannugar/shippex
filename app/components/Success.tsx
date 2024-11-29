@@ -8,7 +8,7 @@ interface Props {
 }
 
 const Success = ({ trackingData }: Props) => {
-  const formatDate = (dateString: string): string => {
+  const formatUpdateTime = (dateString: string): string => {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, "0");
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -21,25 +21,66 @@ const Success = ({ trackingData }: Props) => {
     return `${day}/${month}/${year} ${formattedHours}:${minutes} ${am_or_pm}`;
   };
 
-  const lastUpdated = trackingData?.modified
-    ? formatDate(trackingData.modified)
-    : "Last updated not available";
+  const formatDate = (dateString: string): JSX.Element => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, "0");
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    const hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const am_or_pm = hours >= 12 ? "PM" : "AM";
+    const formattedHours = hours % 12 || 12;
+
+    const actualTime = `${formattedHours}:${minutes} ${am_or_pm}`;
+    const actualDate = `${month} ${day}, ${year}`;
+
+    return (
+      <>
+        <h1>{actualTime}</h1>
+        <h1>{actualDate}</h1>
+      </>
+    );
+  };
+
+  const capitalizeFirstLetter = (city: string): string => {
+    if (!city) return "";
+    return city.charAt(0).toUpperCase() + city.slice(1).toLowerCase();
+  };
 
   return (
     <div className="flex flex-col px-7 md:px-10 py-10 md:flex-row md:space-x-10 items-center md:items-baseline lg:space-x-16 xl:space-x-24 space-y-10 md:space-y-0">
-      <div className="h-[550px] md:h-[600px] w-full md:w-[25rem] relative lg:w-[31.25rem] 2xl:w-[43.75rem] rounded-xl border-2">
+      <div className="h-[28.125rem] md:h-[31.875rem] lg:h-[34.375rem] w-full md:w-[25rem] relative lg:w-[28.563rem] rounded-xl border-2">
         <div className="p-5">
-          <h1 className="font-bold text-[#1F2937] text-sm md:">
+          <h1 className="font-bold text-[#1F2937] lg:text-lg md:text-sm">
             {trackingData?.name}
           </h1>
-          <h1 className="text-[#6B7280] mt-2" style={{ letterSpacing: "0.5%" }}>
-            <span>Last updated {lastUpdated}</span>
+          <h1
+            className="text-[#6B7280] mt-2 lg:text-sm text-xs"
+            style={{ letterSpacing: "0.5%" }}
+          >
+            <span>
+              Last updated {formatUpdateTime(trackingData?.modified!)}
+            </span>
           </h1>
           {/* details section */}
-          <div className="px-5 mt-10 flex flex-col items-center space-y-7 md:space-y-10">
+          <div className="lg:px-5 mt-10 flex flex-col w-full space-y-7 md:space-y-10">
             {/* sender */}
-            <div className="flex items-center justify-between w-full font-medium text-sm md text-sm:md:">
-              <div className="flex items-center space-x-3">
+            <div className="flex w-full font-medium justify-between md:justify-normal items-start text-xs lg:text-sm">
+              <div className="flex items-center space-x-3 flex-shrink-0 lg:w-[53%] 2xl:w-[53%] md:w-[60%]">
                 <svg
                   width="16"
                   height="16"
@@ -62,14 +103,14 @@ const Success = ({ trackingData }: Props) => {
                 </svg>
                 <h1 className="text-[#6B7280]">Sender</h1>
               </div>
-              <div>
+              <div className="md:flex-grow">
                 <h1 className="text-[#1F2937]">{trackingData?.sender}</h1>
               </div>
             </div>
 
             {/* consignee */}
-            <div className="flex items-center justify-between w-full font-medium text-sm md text-sm:md:">
-              <div className="flex items-center space-x-3">
+            <div className="flex w-full items-start justify-between md:justify-normal font-medium text-xs lg:text-sm">
+              <div className="flex items-center space-x-3 flex-shrink-0 lg:w-[53%] 2xl:w-[53%] md:w-[60%]">
                 <svg
                   width="16"
                   height="16"
@@ -93,14 +134,14 @@ const Success = ({ trackingData }: Props) => {
 
                 <h1 className="text-[#6B7280]">Consignee</h1>
               </div>
-              <div>
+              <div className="md:flex-grow">
                 <h1 className="text-[#1F2937]">{trackingData?.consignee}</h1>
               </div>
             </div>
 
             {/* origin address */}
-            <div className="flex items-center justify-between w-full font-medium text-sm md text-sm:md:">
-              <div className="flex items-center space-x-3">
+            <div className="flex items-start justify-between md:justify-normal w-full font-medium text-xs lg:text-sm">
+              <div className="flex items-center space-x-3 flex-shrink-0 lg:w-[53%] 2xl:w-[53%] md:w-[60%]">
                 <svg
                   width="16"
                   height="16"
@@ -130,16 +171,19 @@ const Success = ({ trackingData }: Props) => {
 
                 <h1 className="text-[#6B7280]">Origin Address</h1>
               </div>
-              <div>
-                <h1 className="text-[#1F2937]">
-                  Ahmed Hassan 25, Nile Street, Zamalek Cairo Egypt
+              <div className="text-[#1F2937] md:flex-grow">
+                <h1>{trackingData?.origin_address_line1}</h1>
+                <h1>{trackingData?.origin_address_line1}</h1>
+                <h1>
+                  {capitalizeFirstLetter(trackingData?.origin_city || "")}
                 </h1>
+                <h1>{trackingData?.origin_country}</h1>
               </div>
             </div>
 
             {/* destination address */}
-            <div className="flex items-center justify-between w-full font-medium text-sm md text-sm:md:">
-              <div className="flex items-center space-x-3">
+            <div className="flex items-start justify-between md:justify-normal w-full font-medium text-xs lg:text-sm">
+              <div className="flex items-center space-x-3 flex-shrink-0 lg:w-[53%] 2xl:w-[53%] md:w-[60%]">
                 <svg
                   width="16"
                   height="16"
@@ -163,16 +207,19 @@ const Success = ({ trackingData }: Props) => {
 
                 <h1 className="text-[#6B7280]">Destination Address</h1>
               </div>
-              <div>
-                <h1 className="text-[#1F2937]">
-                  Ahmed Hassan 25, Nile Street, Zamalek Cairo Egypt
+              <div className="text-[#1F2937] md:flex-grow">
+                <h1>{trackingData?.destination_address_line1}</h1>
+                <h1>{trackingData?.destination_address_line1}</h1>
+                <h1>
+                  {capitalizeFirstLetter(trackingData?.destination_city || "")}
                 </h1>
+                <h1>{trackingData?.destination_country}</h1>
               </div>
             </div>
 
             {/* shipping service */}
-            <div className="flex items-center justify-between w-full font-medium text-sm md text-sm:md:">
-              <div className="flex items-center space-x-3">
+            <div className="flex items-start justify-between md:justify-normal w-full font-medium text-xs lg:text-sm">
+              <div className="flex items-center space-x-3 flex-shrink-0 lg:w-[53%] 2xl:w-[53%] md:w-[60%]">
                 <svg
                   width="16"
                   height="16"
@@ -214,7 +261,7 @@ const Success = ({ trackingData }: Props) => {
 
                 <h1 className="text-[#6B7280]">Shipping Service</h1>
               </div>
-              <div>
+              <div className="md:flex-grow">
                 <h1 className="text-[#1F2937]">
                   {trackingData?.shipping_service}
                 </h1>
@@ -223,8 +270,8 @@ const Success = ({ trackingData }: Props) => {
           </div>
         </div>
         {/* total amount */}
-        <div className="bg-[#F8FAFC] text-sm md:text-lg font-medium flex items-center justify-between px-10 py-7 rounded-b-xl absolute bottom-0 w-full">
-          <div className="flex items-center space-x-3">
+        <div className="bg-[#F8FAFC] text-xs lg:text-sm font-medium flex items-start justify-between md:justify-normal px-5 lg:px-10 py-6 rounded-b-xl absolute bottom-0 w-full">
+          <div className="flex items-center space-x-3 flex-shrink-0 lg:w-[53%] 2xl:w-[53%] md:w-[60%]">
             <svg
               width="16"
               height="16"
@@ -254,8 +301,10 @@ const Success = ({ trackingData }: Props) => {
 
             <h1 className="text-[#6B7280]">Total COD Amount</h1>
           </div>
-          <div>
-            <h1 className="text-[#1F2937]">{trackingData?.total_cod} EGP</h1>
+          <div className="md:flex-grow">
+            <h1 className="text-[#1F2937]">
+              {trackingData?.total_cod} {trackingData?.currency}
+            </h1>
           </div>
         </div>
       </div>
@@ -267,17 +316,62 @@ const Success = ({ trackingData }: Props) => {
         </h1>
 
         {/* timeline div */}
-        <div className="mt-7 space-y-2">
+        <div className="mt-7">
           <div className="flex space-x-7">
             <div
               className="text-sm font-medium text-[#6B7280]"
               style={{ letterSpacing: "0.5%" }}
             >
-              <h1>12:05PM</h1>
-              <h1>Dec 16, 2023</h1>
+              {formatDate(trackingData?.creation!)}
             </div>
-            <div className="flex flex-col items-center space-y-3">
-              <div className="rounded-full h-[0.5rem] w-[0.5rem] bg-[#9CA3AF]"></div>
+            <div className="flex flex-col items-center">
+              <div className="rounded-full h-[1.75rem] w-[1.75rem] border border-[#E5E7EB] flex justify-center items-center">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.6667 10.6667H14.6667"
+                    stroke="#1F2937"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M12.6667 8.66669V12.6667"
+                    stroke="#1F2937"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M14 6.66668V5.33335C13.9998 5.09953 13.938 4.86989 13.821 4.66746C13.704 4.46503 13.5358 4.29692 13.3333 4.18002L8.66667 1.51335C8.46397 1.39633 8.23405 1.33472 8 1.33472C7.76595 1.33472 7.53603 1.39633 7.33333 1.51335L2.66667 4.18002C2.46418 4.29692 2.29599 4.46503 2.17897 4.66746C2.06196 4.86989 2.00024 5.09953 2 5.33335V10.6667C2.00024 10.9005 2.06196 11.1301 2.17897 11.3326C2.29599 11.535 2.46418 11.7031 2.66667 11.82L7.33333 14.4867C7.53603 14.6037 7.76595 14.6653 8 14.6653C8.23405 14.6653 8.46397 14.6037 8.66667 14.4867L10 13.7267"
+                    stroke="#1F2937"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M5 2.84668L11 6.28001"
+                    stroke="#1F2937"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.19336 4.66669L8.00003 8.00002L13.8067 4.66669"
+                    stroke="black"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M8 14.6667V8"
+                    stroke="black"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+
               <div className="bg-[#E5E7EB] w-[0.100rem] h-[98px]"></div>
             </div>
 
@@ -294,8 +388,82 @@ const Success = ({ trackingData }: Props) => {
                 <div className="w-[1.125rem] h-[1.125rem] rounded-full relative">
                   <Image
                     fill
-                    src="/not-found.png"
-                    alt="default-home"
+                    src="/profile.png"
+                    alt="profile"
+                    className="object-cover"
+                  />
+                </div>
+                <h1 className="text-[0.938rem] font-semibold text-[#1F2937]">
+                  {trackingData?.owner}
+                </h1>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex space-x-7">
+            <div
+              className="text-sm font-medium text-[#6B7280]"
+              style={{ letterSpacing: "0.5%" }}
+            >
+              <h1>12:05M</h1>
+              <h1>Dec 16, 2023</h1>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="rounded-full h-[1.75rem] w-[1.75rem] border border-[#E5E7EB] flex justify-center items-center">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.6667 10.6666L12 12L14.6667 9.33331"
+                    stroke="#1F2937"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M14 6.66668V5.33335C13.9998 5.09953 13.938 4.86989 13.821 4.66746C13.704 4.46503 13.5358 4.29692 13.3333 4.18002L8.66667 1.51335C8.46397 1.39633 8.23405 1.33472 8 1.33472C7.76595 1.33472 7.53603 1.39633 7.33333 1.51335L2.66667 4.18002C2.46418 4.29692 2.29599 4.46503 2.17897 4.66746C2.06196 4.86989 2.00024 5.09953 2 5.33335V10.6667C2.00024 10.9005 2.06196 11.1301 2.17897 11.3326C2.29599 11.535 2.46418 11.7031 2.66667 11.82L7.33333 14.4867C7.53603 14.6037 7.76595 14.6653 8 14.6653C8.23405 14.6653 8.46397 14.6037 8.66667 14.4867L10 13.7267"
+                    stroke="#1F2937"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M5 2.84668L11 6.28001"
+                    stroke="#1F2937"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.19336 4.66669L8.00003 8.00002L13.8067 4.66669"
+                    stroke="#1F2937"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M8 14.6667V8"
+                    stroke="black"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              <div className="bg-[#E5E7EB] w-[0.100rem] h-[98px]"></div>
+            </div>
+
+            <div className="space-y-4" style={{ letterSpacing: "0.5%" }}>
+              <div className="space-y-1">
+                <h1 className="font-semibold text-[#1F2937]">
+                  Shipment picked-up
+                </h1>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-[1.125rem] h-[1.125rem] rounded-full relative">
+                  <Image
+                    fill
+                    src="/profile.png"
+                    alt="profile"
                     className="object-cover"
                   />
                 </div>
@@ -314,23 +482,71 @@ const Success = ({ trackingData }: Props) => {
               <h1>12:05PM</h1>
               <h1>Dec 16, 2023</h1>
             </div>
-            <div className="flex flex-col items-center space-y-3">
-              <div className="rounded-full h-[0.5rem] w-[0.5rem] bg-[#9CA3AF]"></div>
+            <div className="flex flex-col items-center">
+              <div className="rounded-full h-[1.75rem] w-[1.75rem] border border-[#E5E7EB] flex justify-center items-center">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M14 6.66668V5.33335C13.9998 5.09953 13.938 4.86989 13.821 4.66746C13.704 4.46503 13.5358 4.29692 13.3333 4.18002L8.66667 1.51335C8.46397 1.39633 8.23405 1.33472 8 1.33472C7.76595 1.33472 7.53603 1.39633 7.33333 1.51335L2.66667 4.18002C2.46418 4.29692 2.29599 4.46503 2.17897 4.66746C2.06196 4.86989 2.00024 5.09953 2 5.33335V10.6667C2.00024 10.9005 2.06196 11.1301 2.17897 11.3326C2.29599 11.535 2.46418 11.7031 2.66667 11.82L7.33333 14.4867C7.53603 14.6037 7.76595 14.6653 8 14.6653C8.23405 14.6653 8.46397 14.6037 8.66667 14.4867L10 13.7267"
+                    stroke="#1F2937"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M5 2.84668L11 6.28001"
+                    stroke="#1F2937"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.19336 4.66669L8.00003 8.00002L13.8067 4.66669"
+                    stroke="#1F2937"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M8 14.6667V8"
+                    stroke="#1F2937"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M12.3334 12C13.2538 12 14 11.2538 14 10.3334C14 9.41288 13.2538 8.66669 12.3334 8.66669C11.4129 8.66669 10.6667 9.41288 10.6667 10.3334C10.6667 11.2538 11.4129 12 12.3334 12Z"
+                    stroke="black"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M13.5133 11.5133L14.6666 12.6666"
+                    stroke="black"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
               <div className="bg-[#E5E7EB] w-[0.100rem] h-[98px]"></div>
             </div>
 
             <div className="space-y-4" style={{ letterSpacing: "0.5%" }}>
               <div className="space-y-1">
                 <h1 className="font-semibold text-[#1F2937]">
-                  Shipment created
+                  Proof of pick-up
+                </h1>
+                <h1 className="font-medium text-[#6B7280]">
+                  Shipment Description
                 </h1>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-[1.125rem] h-[1.125rem] rounded-full relative">
                   <Image
                     fill
-                    src="/not-found.png"
-                    alt="default-home"
+                    src="/profile.png"
+                    alt="profile"
                     className="object-cover"
                   />
                 </div>
@@ -349,53 +565,54 @@ const Success = ({ trackingData }: Props) => {
               <h1>12:05PM</h1>
               <h1>Dec 16, 2023</h1>
             </div>
-            <div className="flex flex-col items-center space-y-3">
-              <div className="rounded-full h-[0.5rem] w-[0.5rem] bg-[#9CA3AF]"></div>
-              <div className="bg-[#E5E7EB] w-[0.100rem] h-[98px]"></div>
-            </div>
-
-            <div className="space-y-4" style={{ letterSpacing: "0.5%" }}>
-              <div className="space-y-1">
-                <h1 className="font-semibold text-[#1F2937]">
-                  Shipment created
-                </h1>
-                <h1 className="font-medium text-[#6B7280]">
-                  Shipment Description
-                </h1>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-[1.125rem] h-[1.125rem] rounded-full relative">
-                  <Image
-                    fill
-                    src="/not-found.png"
-                    alt="default-home"
-                    className="object-cover"
+            <div className="flex flex-col items-center">
+              <div className="rounded-full h-[1.75rem] w-[1.75rem] border border-[#E5E7EB] flex justify-center items-center">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3.33331 12H1.99998C1.59998 12 1.33331 11.7333 1.33331 11.3333V4.66667C1.33331 4.26667 1.59998 4 1.99998 4H8.66665C9.06665 4 9.33331 4.26667 9.33331 4.66667V12"
+                    stroke="#1F2937"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
-                </div>
-                <h1 className="text-[0.938rem] font-semibold text-[#1F2937]">
-                  Abdo Saeed
-                </h1>
+                  <path
+                    d="M9.33331 6H12L14.6666 8.66667V11.3333C14.6666 11.7333 14.4 12 14 12H12.6666"
+                    stroke="#1F2937"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M4.66665 13.3334C5.40303 13.3334 5.99998 12.7364 5.99998 12C5.99998 11.2636 5.40303 10.6667 4.66665 10.6667C3.93027 10.6667 3.33331 11.2636 3.33331 12C3.33331 12.7364 3.93027 13.3334 4.66665 13.3334Z"
+                    stroke="#1F2937"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M10 12H6"
+                    stroke="#1F2937"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M11.3333 13.3334C12.0697 13.3334 12.6667 12.7364 12.6667 12C12.6667 11.2636 12.0697 10.6667 11.3333 10.6667C10.597 10.6667 10 11.2636 10 12C10 12.7364 10.597 13.3334 11.3333 13.3334Z"
+                    stroke="black"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </div>
-            </div>
-          </div>
-
-          <div className="flex space-x-7">
-            <div
-              className="text-sm font-medium text-[#6B7280]"
-              style={{ letterSpacing: "0.5%" }}
-            >
-              <h1>12:05PM</h1>
-              <h1>Dec 16, 2023</h1>
-            </div>
-            <div className="flex flex-col items-center space-y-3">
-              <div className="rounded-full h-[0.5rem] w-[0.5rem] bg-[#9CA3AF]"></div>
               <div className="bg-[#E5E7EB] w-[0.100rem] h-[98px]"></div>
             </div>
 
             <div className="space-y-4" style={{ letterSpacing: "0.5%" }}>
               <div className="space-y-1">
                 <h1 className="font-semibold text-[#1F2937]">
-                  Shipment created
+                  Shipment on delivery
                 </h1>
                 <h1 className="font-medium text-[#6B7280]">
                   Shipment Description
@@ -405,8 +622,8 @@ const Success = ({ trackingData }: Props) => {
                 <div className="w-[1.125rem] h-[1.125rem] rounded-full relative">
                   <Image
                     fill
-                    src="/not-found.png"
-                    alt="default-home"
+                    src="/profile.png"
+                    alt="profile"
                     className="object-cover"
                   />
                 </div>

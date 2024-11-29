@@ -20,7 +20,7 @@ const NetworkError = ({
           fill
           priority
           src="/connection-lost.png"
-          alt="no-results"
+          alt="connection-lost"
           className="object-cover"
         />
       </div>

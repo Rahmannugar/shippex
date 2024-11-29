@@ -42,7 +42,7 @@ const NotFound = () => {
                 fill
                 priority
                 src="/not-found.png"
-                alt="default-home"
+                alt="not-found"
                 className="object-cover"
               />
             </div>

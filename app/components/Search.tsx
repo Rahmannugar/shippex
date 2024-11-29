@@ -73,7 +73,7 @@ const Search = ({
       if (error.response?.status === 500) {
         setNetworkError(true);
         console.log("Internal Server Error");
-      } else if (error.response) {
+      } else if (error.response?.status !== 500) {
         setError(true);
       } else {
         console.error("Unknown error:", error.message);
@@ -116,10 +116,7 @@ const Search = ({
             className="bg-primary flex items-center justify-center space-x-3 disabled:bg-[#60A5FA] px-6 md:px-12 py-3 font-semibold text-[0.938rem] text-white rounded-lg"
           >
             {loading ? (
-              <>
-                <CircularProgress size="0.875rem" sx={{ color: "white" }} />
-                <h1>Tracking</h1>
-              </>
+              <CircularProgress size="0.875rem" sx={{ color: "white" }} />
             ) : (
               <h1>Track</h1>
             )}
