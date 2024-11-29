@@ -10,9 +10,9 @@ import NetworkError from "./NetworkError";
 export interface trackingDataProps {
   name: string;
   currency: string;
-  owner: string;
-  sender: string;
+  sender_name: string;
   consignee: string;
+  status: string;
   origin_address_line1: string;
   origin_address_line2: string;
   origin_city: string;
@@ -31,7 +31,11 @@ export interface trackingDataProps {
   destinationAddress: string;
   shipping_service: string;
   total_cod: number;
-  scans: [];
+  scans: {
+    owner: string;
+    scan_comment: string;
+    scan_date: string;
+  }[];
 }
 
 export interface ResponseProps {

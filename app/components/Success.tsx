@@ -65,7 +65,7 @@ const Success = ({ trackingData }: Props) => {
     <div className="flex flex-col px-7 md:px-10 py-10 md:flex-row md:space-x-10 items-center md:items-baseline lg:space-x-16 xl:space-x-24 space-y-10 md:space-y-0">
       <div className="h-[28.125rem] md:h-[31.875rem] lg:h-[34.375rem] w-full md:w-[25rem] relative lg:w-[28.563rem] rounded-xl border-2">
         <div className="p-5">
-          <h1 className="font-bold text-[#1F2937] lg:text-lg md:text-sm">
+          <h1 className="font-bold text-[#1F2937] lg:text-lg text-sm">
             {trackingData?.name}
           </h1>
           <h1
@@ -104,7 +104,9 @@ const Success = ({ trackingData }: Props) => {
                 <h1 className="text-[#6B7280]">Sender</h1>
               </div>
               <div className="md:flex-grow">
-                <h1 className="text-[#1F2937]">{trackingData?.sender}</h1>
+                <h1 className="text-[#1F2937]">
+                  {capitalizeFirstLetter(trackingData?.sender_name || "")}
+                </h1>
               </div>
             </div>
 
@@ -310,19 +312,19 @@ const Success = ({ trackingData }: Props) => {
       </div>
 
       {/* timeline section */}
-      <div className="py-5 h-[495px]">
-        <h1 className="font-bold text-[#1F2937] text-center md:text-justify text-sm md:">
+      <div className="py-5 flex flex-col justify-center items-center h-[30.938rem]">
+        <h1 className="font-bold text-[#1F2937] text-sm lg:text-lg">
           TIMELINE
         </h1>
 
         {/* timeline div */}
-        <div className="mt-7">
+        <div className="mt-7 w-full">
           <div className="flex space-x-7">
             <div
-              className="text-sm font-medium text-[#6B7280]"
+              className="lg:text-sm text-xs font-medium text-[#6B7280]"
               style={{ letterSpacing: "0.5%" }}
             >
-              {formatDate(trackingData?.creation!)}
+              {formatDate(trackingData?.scans[0].scan_date!)}
             </div>
             <div className="flex flex-col items-center">
               <div className="rounded-full h-[1.75rem] w-[1.75rem] border border-[#E5E7EB] flex justify-center items-center">
@@ -372,16 +374,16 @@ const Success = ({ trackingData }: Props) => {
                 </svg>
               </div>
 
-              <div className="bg-[#E5E7EB] w-[0.100rem] h-[98px]"></div>
+              <div className="bg-[#E5E7EB] w-[0.100rem] h-[4.688rem] lg:h-[5.313rem]"></div>
             </div>
 
             <div className="space-y-4" style={{ letterSpacing: "0.5%" }}>
-              <div className="space-y-1">
+              <div className="space-y-1 text-sm lg:text-base">
                 <h1 className="font-semibold text-[#1F2937]">
                   Shipment created
                 </h1>
                 <h1 className="font-medium text-[#6B7280]">
-                  Shipment Description
+                  {trackingData?.status}
                 </h1>
               </div>
               <div className="flex items-center space-x-3">
@@ -393,20 +395,20 @@ const Success = ({ trackingData }: Props) => {
                     className="object-cover"
                   />
                 </div>
-                <h1 className="text-[0.938rem] font-semibold text-[#1F2937]">
-                  {trackingData?.owner}
+                <h1 className="text-sm lg:text-[0.938rem] font-semibold text-[#1F2937]">
+                  {trackingData?.scans[0]?.owner}
                 </h1>
+                <h1 className="text-sm hidden lg:text-[0.938rem] text-wrap font-semibold break-words text-[#1F2937]"></h1>
               </div>
             </div>
           </div>
 
           <div className="flex space-x-7">
             <div
-              className="text-sm font-medium text-[#6B7280]"
+              className="lg:text-sm text-xs font-medium text-[#6B7280]"
               style={{ letterSpacing: "0.5%" }}
             >
-              <h1>12:05M</h1>
-              <h1>Dec 16, 2023</h1>
+              {formatDate(trackingData?.scans[1].scan_date!)}
             </div>
             <div className="flex flex-col items-center">
               <div className="rounded-full h-[1.75rem] w-[1.75rem] border border-[#E5E7EB] flex justify-center items-center">
@@ -449,11 +451,11 @@ const Success = ({ trackingData }: Props) => {
                   />
                 </svg>
               </div>
-              <div className="bg-[#E5E7EB] w-[0.100rem] h-[98px]"></div>
+              <div className="bg-[#E5E7EB] w-[0.100rem] h-[4.688rem] lg:h-[5.313rem]"></div>
             </div>
 
             <div className="space-y-4" style={{ letterSpacing: "0.5%" }}>
-              <div className="space-y-1">
+              <div className="space-y-1 text-sm lg:text-base">
                 <h1 className="font-semibold text-[#1F2937]">
                   Shipment picked-up
                 </h1>
@@ -467,8 +469,8 @@ const Success = ({ trackingData }: Props) => {
                     className="object-cover"
                   />
                 </div>
-                <h1 className="text-[0.938rem] font-semibold text-[#1F2937]">
-                  Abdo Saeed
+                <h1 className="text-sm lg:text-[0.938rem] font-semibold text-[#1F2937]">
+                  {trackingData?.scans[1]?.owner}
                 </h1>
               </div>
             </div>
@@ -476,11 +478,10 @@ const Success = ({ trackingData }: Props) => {
 
           <div className="flex space-x-7">
             <div
-              className="text-sm font-medium text-[#6B7280]"
+              className="lg:text-sm text-xs font-medium text-[#6B7280]"
               style={{ letterSpacing: "0.5%" }}
             >
-              <h1>12:05PM</h1>
-              <h1>Dec 16, 2023</h1>
+              {formatDate(trackingData?.scans[2].scan_date!)}
             </div>
             <div className="flex flex-col items-center">
               <div className="rounded-full h-[1.75rem] w-[1.75rem] border border-[#E5E7EB] flex justify-center items-center">
@@ -529,16 +530,16 @@ const Success = ({ trackingData }: Props) => {
                   />
                 </svg>
               </div>
-              <div className="bg-[#E5E7EB] w-[0.100rem] h-[98px]"></div>
+              <div className="bg-[#E5E7EB] w-[0.100rem] h-[4.688rem] lg:h-[5.313rem]"></div>
             </div>
 
             <div className="space-y-4" style={{ letterSpacing: "0.5%" }}>
-              <div className="space-y-1">
+              <div className="space-y-1 text-sm lg:text-base">
                 <h1 className="font-semibold text-[#1F2937]">
                   Proof of pick-up
                 </h1>
                 <h1 className="font-medium text-[#6B7280]">
-                  Shipment Description
+                  {trackingData?.scans[2]?.scan_comment}
                 </h1>
               </div>
               <div className="flex items-center space-x-3">
@@ -550,8 +551,8 @@ const Success = ({ trackingData }: Props) => {
                     className="object-cover"
                   />
                 </div>
-                <h1 className="text-[0.938rem] font-semibold text-[#1F2937]">
-                  Abdo Saeed
+                <h1 className="text-sm lg:text-[0.938rem] font-semibold text-[#1F2937]">
+                  {trackingData?.scans[2]?.owner}
                 </h1>
               </div>
             </div>
@@ -559,11 +560,10 @@ const Success = ({ trackingData }: Props) => {
 
           <div className="flex space-x-7">
             <div
-              className="text-sm font-medium text-[#6B7280]"
+              className="lg:text-sm text-xs font-medium text-[#6B7280]"
               style={{ letterSpacing: "0.5%" }}
             >
-              <h1>12:05PM</h1>
-              <h1>Dec 16, 2023</h1>
+              {formatDate(trackingData?.scans[3].scan_date!)}
             </div>
             <div className="flex flex-col items-center">
               <div className="rounded-full h-[1.75rem] w-[1.75rem] border border-[#E5E7EB] flex justify-center items-center">
@@ -606,29 +606,16 @@ const Success = ({ trackingData }: Props) => {
                   />
                 </svg>
               </div>
-              <div className="bg-[#E5E7EB] w-[0.100rem] h-[98px]"></div>
+              <div className="bg-[#E5E7EB] w-[0.100rem] h-[4.688rem] lg:h-[5.313rem]"></div>
             </div>
 
             <div className="space-y-4" style={{ letterSpacing: "0.5%" }}>
-              <div className="space-y-1">
+              <div className="space-y-1 text-sm lg:text-base">
                 <h1 className="font-semibold text-[#1F2937]">
                   Shipment on delivery
                 </h1>
                 <h1 className="font-medium text-[#6B7280]">
-                  Shipment Description
-                </h1>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-[1.125rem] h-[1.125rem] rounded-full relative">
-                  <Image
-                    fill
-                    src="/profile.png"
-                    alt="profile"
-                    className="object-cover"
-                  />
-                </div>
-                <h1 className="text-[0.938rem] font-semibold text-[#1F2937]">
-                  Abdo Saeed
+                  {trackingData?.scans[3]?.scan_comment}
                 </h1>
               </div>
             </div>
