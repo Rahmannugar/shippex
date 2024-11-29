@@ -43,7 +43,7 @@ const Success = ({ trackingData }: Props) => {
     const hours = date.getHours();
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const am_or_pm = hours >= 12 ? "PM" : "AM";
-    const formattedHours = hours % 12 || 12;
+    const formattedHours = hours % 24 || 12;
 
     const actualTime = `${formattedHours}:${minutes} ${am_or_pm}`;
     const actualDate = `${month} ${day}, ${year}`;
@@ -371,7 +371,6 @@ const Success = ({ trackingData }: Props) => {
               status: trackingData?.status,
               owner: trackingData?.scans[0]?.owner,
               date: formatDate(trackingData?.scans[0].scan_date!),
-              comment: "",
             },
             {
               icon: (
@@ -430,7 +429,6 @@ const Success = ({ trackingData }: Props) => {
               status: "",
               owner: trackingData?.scans[1]?.owner,
               date: formatDate(trackingData?.scans[1].scan_date!),
-              comment: "",
             },
             {
               icon: (
@@ -535,12 +533,12 @@ const Success = ({ trackingData }: Props) => {
           ].map((step, index) => (
             <div key={index} className="flex space-x-7 items-start">
               <div
-                className="lg:text-sm text-xs font-medium text-[#6B7280]"
+                className="lg:text-sm text-xs w-[5rem] sm:w-[6.25rem] font-medium text-[#6B7280]"
                 style={{ letterSpacing: "0.5%" }}
               >
                 {step.date}
               </div>
-              <div className="flex flex-col bg-red-500  items-center">
+              <div className="flex flex-col items-center">
                 <div className="rounded-full h-[1.75rem] w-[1.75rem] border border-[#E5E7EB] flex justify-center items-center">
                   {step.icon}
                 </div>
