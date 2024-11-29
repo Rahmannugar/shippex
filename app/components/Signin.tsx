@@ -5,11 +5,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 interface Props {
-  isLoggedIn: boolean;
   setIsLoggedIn: any;
 }
 
-const Signin = ({ isLoggedIn, setIsLoggedIn }: Props) => {
+const Signin = ({ setIsLoggedIn }: Props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [checked, setChecked] = useState(false);
@@ -44,23 +43,24 @@ const Signin = ({ isLoggedIn, setIsLoggedIn }: Props) => {
     setLoading(true);
     setShowPassword(false);
     try {
-      const formData = new FormData();
-      formData.append("usr", username);
-      formData.append("pwd", password);
-
-      const response = await axios.post(api_url, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      const response = await axios.post(
+        "/api",
+        {
+          usr: username,
+          pwd: password,
         },
-        withCredentials: true,
-      });
+        {
+          withCredentials: true,
+        }
+      );
       if (response.status == 200) {
         setUsername("");
         setPassword("");
         setLoading(false);
         setIsLoggedIn(true);
-        console.log(response.data);
         localStorage.setItem("isLoggedIn", "true");
+      } else {
+        throw new Error("Invalid details");
       }
     } catch (error: any) {
       console.error("Login failed:", error);

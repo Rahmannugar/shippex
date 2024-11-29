@@ -7,22 +7,24 @@ import Search from "./components/Search";
 import Link from "next/link";
 
 const NotFound = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [token, setToken] = useState<string | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const storedToken = Cookies.get("token");
-    setToken(storedToken || null);
-    setIsLoading(false);
+    const storedLoginStatus = localStorage.getItem("isLoggedIn");
+    if (storedLoginStatus === "true") {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
   }, []);
 
-  if (isLoading) {
-    return null;
+  if (isLoggedIn === null) {
+    return;
   }
 
   return (
     <div>
-      {token ? (
+      {isLoggedIn ? (
         <div className="h-screen flex flex-col">
           <div className="p-7 md:p-10 justify-start">
             <Search error={false} setError={undefined} />

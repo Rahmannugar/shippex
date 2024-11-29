@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const Success = () => {
   return (
-    <div className="flex flex-col md:flex-row md:space-x-10 items-center md:items-baseline lg:space-x-16 xl:space-x-24 space-y-10 md:space-y-0 2xl:justify-center">
+    <div className="flex flex-col px-7 md:px-10 py-10 md:flex-row md:space-x-10 items-center md:items-baseline lg:space-x-16 xl:space-x-24 space-y-10 md:space-y-0 2xl:justify-center">
       <div className="h-[550px] md:h-[600px] w-full md:w-[25rem] relative lg:w-[31.25rem] 2xl:w-[43.75rem] rounded-xl border-2">
         <div className="p-5">
           <h1 className="font-bold text-[#1F2937] text-sm md:">
