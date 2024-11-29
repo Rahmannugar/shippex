@@ -8,6 +8,7 @@ interface Props {
   setSuccess: any;
   setTrackingData: any;
   setNetworkError: any;
+  setIsSubmitted: any;
 }
 
 const Search = ({
@@ -16,6 +17,7 @@ const Search = ({
   setSuccess,
   setTrackingData,
   setNetworkError,
+  setIsSubmitted,
 }: Props) => {
   const [trackingId, setTrackingId] = useState("");
   const [disabled, setDisabled] = useState(true);
@@ -24,6 +26,7 @@ const Search = ({
   useEffect(() => {
     if ((error && trackingId !== "") || (error && trackingId == "")) {
       setError(false);
+      setIsSubmitted(false);
     }
     if (trackingId !== "") {
       setDisabled(false);
@@ -44,7 +47,7 @@ const Search = ({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-
+    setIsSubmitted(true);
     setSuccess(null);
     setError(false);
     setTrackingData(null);

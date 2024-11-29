@@ -51,6 +51,7 @@ const User = () => {
   const [trackingData, setTrackingData] = useState<trackingDataProps | null>(
     null
   );
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   return (
     <div className="h-screen flex flex-col">
@@ -61,6 +62,7 @@ const User = () => {
           setSuccess={setSuccess}
           setTrackingData={setTrackingData}
           setNetworkError={setNetworkError}
+          setIsSubmitted={setIsSubmitted}
         />
       </div>
       <div className="flex-grow flex">
@@ -106,7 +108,7 @@ const User = () => {
                 setSuccess={setSuccess}
               />
             </motion.div>
-          ) : success === null && !networkError && !error ? (
+          ) : success === null && !networkError && !error && !isSubmitted ? (
             <motion.div
               key="default"
               initial={{ opacity: 0 }}
