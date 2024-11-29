@@ -41,10 +41,12 @@ export async function POST(request: NextRequest) {
 
     return nextResponse;
   } catch (error: any) {
-    // console.error(
-    //   "Error fetching shipment data:",
-    //   error.response?.data || error.message
-    // );
+    console.error(
+      "Error fetching shipment data:",
+      error.response?.data || error.message
+    );
+    if (error.response) {
+    }
     return NextResponse.json(
       { error: error.response?.data || "Error fetching shipment data:" },
       { status: error.response?.status || 500 }

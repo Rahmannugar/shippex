@@ -32,6 +32,7 @@ const NotFound = () => {
               setError={undefined}
               setSuccess={undefined}
               setTrackingData={undefined}
+              setNetworkError={undefined}
             />
           </div>
 

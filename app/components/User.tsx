@@ -1,11 +1,11 @@
 "use client";
-
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Search from "./Search";
 import Default from "./Default";
 import Error from "./Error";
 import Success from "./Success";
+import NetworkError from "./NetworkError";
 
 export interface trackingDataProps {
   name: string;
@@ -25,8 +25,15 @@ export interface trackingDataProps {
   }>;
 }
 
+export interface ResponseProps {
+  setError: any;
+  setNetworkError: any;
+  setSuccess: any;
+}
+
 const User = () => {
   const [error, setError] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
   const [success, setSuccess] = useState<boolean | null>(null);
   const [trackingData, setTrackingData] = useState<trackingDataProps | null>(
     null
@@ -40,19 +47,34 @@ const User = () => {
           setError={setError}
           setSuccess={setSuccess}
           setTrackingData={setTrackingData}
+          setNetworkError={setNetworkError}
         />
       </div>
-
-      <div className="flex-grow flex justify-center items-center">
+      <div className="flex-grow flex">
         <AnimatePresence mode="wait">
-          {success ? (
+          {networkError ? (
             <motion.div
-              key="success"
+              key="network-error"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
               className="w-full h-full flex justify-center items-center"
+            >
+              <NetworkError
+                setError={setError}
+                setNetworkError={setNetworkError}
+                setSuccess={setSuccess}
+              />
+            </motion.div>
+          ) : success === true ? (
+            <motion.div
+              key={`success-${trackingData?.name}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="w-screen 2xl:flex 2xl:justify-center 2xl:items-center"
             >
               <Success trackingData={trackingData} />
             </motion.div>
@@ -65,9 +87,13 @@ const User = () => {
               transition={{ duration: 0.5 }}
               className="w-full h-full flex justify-center items-center"
             >
-              <Error />
+              <Error
+                setError={setError}
+                setNetworkError={setNetworkError}
+                setSuccess={setSuccess}
+              />
             </motion.div>
-          ) : (
+          ) : success === null && !networkError && !error ? (
             <motion.div
               key="default"
               initial={{ opacity: 0 }}
@@ -78,7 +104,7 @@ const User = () => {
             >
               <Default />
             </motion.div>
-          )}
+          ) : null}
         </AnimatePresence>
       </div>
     </div>

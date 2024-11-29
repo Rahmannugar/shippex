@@ -7,9 +7,16 @@ interface Props {
   setError: any;
   setSuccess: any;
   setTrackingData: any;
+  setNetworkError: any;
 }
 
-const Search = ({ error, setError, setSuccess, setTrackingData }: Props) => {
+const Search = ({
+  error,
+  setError,
+  setSuccess,
+  setTrackingData,
+  setNetworkError,
+}: Props) => {
   const [trackingId, setTrackingId] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -37,6 +44,11 @@ const Search = ({ error, setError, setSuccess, setTrackingData }: Props) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+
+    setSuccess(null);
+    setError(false);
+    setTrackingData(null);
+
     try {
       const response = await axios.post(
         "/api/get",
@@ -54,16 +66,20 @@ const Search = ({ error, setError, setSuccess, setTrackingData }: Props) => {
       console.log("Response:", response.data.message);
       if (response.status === 200) {
         setError(false);
-        setLoading(false);
         setSuccess(true);
         setTrackingData(response.data.message);
-      } else {
-        setLoading(false);
       }
     } catch (error: any) {
-      console.error("Error fetching shipment data:", error);
+      if (error.response?.status === 500) {
+        setNetworkError(true);
+        console.log("Internal Server Error");
+      } else if (error.response) {
+        setError(true);
+      } else {
+        console.error("Unknown error:", error.message);
+      }
+    } finally {
       setLoading(false);
-      setError(true);
     }
   };
 

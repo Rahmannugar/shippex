@@ -1,8 +1,13 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
 import { ResponseProps } from "./User";
 
-const Error = ({ setError, setNetworkError, setSuccess }: ResponseProps) => {
+const NetworkError = ({
+  setError,
+  setNetworkError,
+  setSuccess,
+}: ResponseProps) => {
   const resetServer = () => {
     setError(false);
     setNetworkError(false);
@@ -14,18 +19,18 @@ const Error = ({ setError, setNetworkError, setSuccess }: ResponseProps) => {
         <Image
           fill
           priority
-          src="/no-results.png"
+          src="/connection-lost.png"
           alt="no-results"
           className="object-cover"
         />
       </div>
       <div className="space-y-2">
-        <h1 className="text-2xl font-bold text-[#000000]">No results found</h1>
+        <h1 className="text-2xl font-bold text-[#000000]">Connection Lost</h1>
         <h2
           style={{ letterSpacing: "0.5%" }}
           className="text-sm text-[#838282]"
         >
-          No results found. Please try again.
+          Oops! It seems you are currently offline.
         </h2>
       </div>
       <div>
@@ -40,5 +45,4 @@ const Error = ({ setError, setNetworkError, setSuccess }: ResponseProps) => {
     </div>
   );
 };
-
-export default Error;
+export default NetworkError;
