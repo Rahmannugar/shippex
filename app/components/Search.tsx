@@ -93,12 +93,10 @@ const Search = ({
             tabIndex={0}
             id="here"
             className={`flex items-center w-[60vw] sm:w-[25rem] md:w-[31.25rem] lg:w-[37.5rem] shadow-sm bg-white h-full space-x-2 border-2 p-3 rounded-lg ${
-              !error ? "focus-within:border-primary" : ""
-            }  ${
               !error
-                ? " focus-within:ring-4 focus-within:ring-[CEE0FF]"
+                ? "focus-within:border-primary focus-within:ring-4 focus-within:ring-[#e4edfc]"
                 : "ring-4 ring-[#f6d5d5] border-error"
-            }" ${!error ? "" : "border-error"} `}
+            } `}
           >
             <input
               type="text"

@@ -7,11 +7,13 @@ const NetworkError = ({
   setError,
   setNetworkError,
   setSuccess,
+  setIsSubmitted,
 }: ResponseProps) => {
   const resetServer = () => {
     setError(false);
     setNetworkError(false);
     setSuccess(null);
+    setIsSubmitted(false);
   };
   return (
     <div className="flex flex-col justify-center items-center text-center space-y-7 flex-grow">

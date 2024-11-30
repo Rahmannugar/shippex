@@ -42,6 +42,7 @@ export interface ResponseProps {
   setError: any;
   setNetworkError: any;
   setSuccess: any;
+  setIsSubmitted: any;
 }
 
 const User = () => {
@@ -80,6 +81,7 @@ const User = () => {
                 setError={setError}
                 setNetworkError={setNetworkError}
                 setSuccess={setSuccess}
+                setIsSubmitted={setIsSubmitted}
               />
             </motion.div>
           ) : success === true ? (
@@ -106,9 +108,13 @@ const User = () => {
                 setError={setError}
                 setNetworkError={setNetworkError}
                 setSuccess={setSuccess}
+                setIsSubmitted={setIsSubmitted}
               />
             </motion.div>
-          ) : success === null && !networkError && !error && !isSubmitted ? (
+          ) : success === null &&
+            networkError === false &&
+            error === false &&
+            isSubmitted === false ? (
             <motion.div
               key="default"
               initial={{ opacity: 0 }}
