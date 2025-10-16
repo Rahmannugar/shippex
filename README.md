@@ -10,7 +10,7 @@ Shippex is a shipment tracker application designed to provide seamless tracking 
 ## How to use
 1. Login:
 Open the application.
-Enter your login credentials (username and password).
+Enter your login credentials (username = "test@brandimic.com" and password = "testy123@").
 Click on the Login button.
 
 2. Track a Shipment:
